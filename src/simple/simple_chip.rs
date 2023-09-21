@@ -1,7 +1,7 @@
 use std::marker::PhantomData;
 
 /// Prove know  prove knowledge of two private inputs a and b
-/// s.t: a^2 * b^2 = c
+/// s.t: a^2 * b^2 = out
 
 use halo2_proofs::{
     arithmetic::Field,
@@ -20,8 +20,8 @@ use halo2_proofs::{
 /// |       |   ab  |       |   0   |
 /// |       |   ab  |   ab  |   1   |
 /// |       | absq  |       |   0   |
-/// |       |  absq | absq  |   1   |
-/// |       |  c    |       |   0   |
+/// |       |  absq | const |   1   |
+/// |       |  out  |       |   0   |
 
 
 #[derive(Debug, Clone)]
