@@ -196,7 +196,7 @@ mod tests {
         // Create the area you want to draw on.
         // Use SVGBackend if you want to render to .svg instead.
         use plotters::prelude::*;
-        let root = BitMapBackend::new("layout.png", (1024, 768)).into_drawing_area();
+        let root = BitMapBackend::new("./images/simple.png", (1024, 768)).into_drawing_area();
         root.fill(&WHITE).unwrap();
         let root = root
             .titled("Simple Circuit without chip", ("sans-serif", 60))

@@ -213,7 +213,7 @@ mod tests {
     use halo2_proofs::{dev::MockProver, pasta::Fp};
     use super::*;
     #[test]
-    fn test_simple_2gates() {
+    fn test_simple_3gates() {
         // ANCHOR: test-circuit
         // The number of rows in our circuit cannot exceed 2^k. Since our example
         // circuit is very small, we can pick a very small value here.
@@ -252,13 +252,13 @@ mod tests {
 
     #[cfg(feature = "dev-graph")]
     #[test]
-    fn plot_2gates_circuit(){
+    fn plot_3gates_circuit(){
         // Instantiate the circuit with the private inputs.
         let circuit = MyCircuit::<Fp>::default();
         // Create the area you want to draw on.
         // Use SVGBackend if you want to render to .svg instead.
         use plotters::prelude::*;
-        let root = BitMapBackend::new("layout.png", (1024, 768)).into_drawing_area();
+        let root = BitMapBackend::new("./images/simple_3gates.png", (1024, 768)).into_drawing_area();
         root.fill(&WHITE).unwrap();
         let root = root
             .titled("Simple_3gates Circuit without chip", ("sans-serif", 60))
