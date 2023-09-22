@@ -5,4 +5,10 @@ Halo2官方文档以及0xparc的系列视频教程已经很好了，但还是不
 
 ## 目录
 1. [Simple example](./docs/1.simple.md)
+2. custom gates(Mental model)
+3. chip + layout + dynamic rows
+4. optimization
+5. lookup
+
+
 
