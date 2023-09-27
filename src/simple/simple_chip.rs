@@ -94,8 +94,6 @@ impl <F:Field> Chip<F> for FieldChip<F> {
 #[derive(Clone)]
 struct Number<F:Field>(AssignedCell<F,F>);
 
-
-
 impl <F:Field>  FieldChip<F> {
     fn load_private(
         &self,

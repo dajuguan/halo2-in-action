@@ -12,20 +12,20 @@ use halo2_proofs::{
 };
 
 /// Circuit design:
-/// | ins   | a0    | a1    | s_mul | s_add | s_cub |
-/// |-------|-------|-------|-------|-------|-------|
-/// |       |    a  |       |       |       |       |
-/// |       |    b  |       |       |       |       |
-/// |       | const |       |       |       |       |
-/// |       |   ab  |   b   |   1   |   0   |   0   |
-/// |       |   ab  |       |   0   |   0   |   0   |
-/// |       |   ab  |   ab  |   1   |   0   |   0   |
-/// |       | absq  |       |   0   |   0   |   0   |
-/// |       |  absq | const |   1   |   0   |   0   |
-/// |       |  c    |       |   0   |   0   |   0   |
-/// |       |  c    | const |   0   |   1   |   0   |
-/// |       |  d    |       |   0   |   0   |   0   |
-/// |       |  d    |  out  |   0   |   0   |   1   |
+// / | ins   | a0    | a1    | s_mul | s_add | s_cub |
+// / |  out  |-------|-------|-------|-------|-------|
+// / |       |    a  |       |       |       |       |
+// / |       |    b  |       |       |       |       |
+// / |       | const |       |       |       |       |
+// / |       |   ab  |   b   |   1   |   0   |   0   |
+// / |       |   ab  |       |   0   |   0   |   0   |
+// / |       |   ab  |   ab  |   1   |   0   |   0   |
+// / |       | absq  |       |   0   |   0   |   0   |
+// / |       |  absq | const |   1   |   0   |   0   |
+// / |       |  c    |       |   0   |   0   |   0   |
+// / |       |  c    | const |   0   |   1   |   0   |
+// / |       |  d    |       |   0   |   0   |   0   |
+// / |       |  d    |  out  |   0   |   0   |   1   |
 
 
 #[derive(Debug, Clone)]
@@ -212,13 +212,8 @@ impl <F:Field> Circuit<F> for MyCircuit<F> {
 mod tests {
     use halo2_proofs::{dev::MockProver, pasta::Fp};
     use super::*;
-    #[test]
-    fn test_simple_3gates() {
-        // ANCHOR: test-circuit
-        // The number of rows in our circuit cannot exceed 2^k. Since our example
-        // circuit is very small, we can pick a very small value here.
-        let k = 5;
-    
+
+    fn circuit() -> (MyCircuit<Fp>, Fp) {
         // Prepare the private and public inputs to the circuit!
         let constant = Fp::from(2);
         let a = Fp::from(2);
@@ -228,11 +223,19 @@ mod tests {
         println!("c=:{:?}",c);
     
         // Instantiate the circuit with the private inputs.
-        let circuit = MyCircuit {
+        (MyCircuit {
             constant,
             a: Value::known(a),
             b: Value::known(b),
-        };
+        }, c)
+    }
+    #[test]
+    fn test_simple_3gates() {
+        // ANCHOR: test-circuit
+        // The number of rows in our circuit cannot exceed 2^k. Since our example
+        // circuit is very small, we can pick a very small value here.
+        let k = 5;
+        let (circuit, c) = circuit();
     
         // Arrange the public input. We expose the multiplication result in row 0
         // of the instance column, so we position it there in our public inputs.
@@ -254,7 +257,7 @@ mod tests {
     #[test]
     fn plot_3gates_circuit(){
         // Instantiate the circuit with the private inputs.
-        let circuit = MyCircuit::<Fp>::default();
+        let (circuit, c) = circuit();
         // Create the area you want to draw on.
         // Use SVGBackend if you want to render to .svg instead.
         use plotters::prelude::*;
